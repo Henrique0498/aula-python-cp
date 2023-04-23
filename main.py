@@ -1,16 +1,55 @@
-# This is a sample Python script.
+# imports
+import json
+import requests
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# open file
+with open('./files/base_tdspy.json') as file:
+    jsonFile = json.load(file)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# functions
+def remove_com(enumerated_url):
+    index, url = enumerated_url
+    url_sem_com = url.replace(".com", "")
+    return f"{index + 1} - {url_sem_com}"
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+#code
+#code - var
+isValid = False
+insertRm = None
+optionSelect = None
+
+
+while not isValid:
+    insertRm = input('Digite apenas os números de seu RM:')
+
+    if insertRm in jsonFile:
+        isValid = True
+    else:
+        print("\nPor favor, digite um RM valido.\n")
+
+isValid = False
+urls = jsonFile[insertRm]
+resultArray = list(map(remove_com, enumerate(urls)))
+result_string = "\n".join(resultArray)
+
+while not isValid:
+    print("Essas são suas opções:")
+    print(result_string)
+    print("Escolha uma delas usando o número na frente delas.")
+    optionSelect = int(input()) - 1
+
+    if optionSelect >= 0 and optionSelect <= len(urls):
+        isValid = True
+    else:
+        print("\nPor favor, escolha uma opção válida.")
+
+print("\nPegando seus dados na nuvem...")
+response = requests.get(f"https://www.{urls[optionSelect]}")
+print("Ok, tudo certo, dados pegos com sucesso!\nSalvando os dados...")
+file_html = response.content
+
+with open('./files/site.html', 'w') as file_site:
+    file_site.write(str(file_html))
+print("Dados salvos!")
