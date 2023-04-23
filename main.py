@@ -46,12 +46,13 @@ while not isValid:
     else:
         print("\nPor favor, escolha uma opção válida.")
 
-#   - saving file
+#   - getting site
 print("\nPegando seus dados na nuvem...")
 response = requests.get(f"https://www.{urls[optionSelect]}")
 print("Ok, tudo certo, dados pegos com sucesso!\nSalvando os dados...")
 file_html = response.content
 
+#   - saving file
 with open('./files/site.html', 'w') as file_site:
     file_site.write(str(file_html))
 print("Dados salvos!")
