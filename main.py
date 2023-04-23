@@ -22,7 +22,7 @@ optionSelect = None
 
 
 while not isValid:
-    insertRm = input('Digite apenas os números de seu RM:')
+    insertRm = input('Digite apenas os números de seu RM: ')
 
     if insertRm in jsonFile:
         isValid = True
@@ -35,10 +35,9 @@ resultArray = list(map(remove_com, enumerate(urls)))
 result_string = "\n".join(resultArray)
 
 while not isValid:
-    print("Essas são suas opções:")
+    print("\nEssas são suas opções:")
     print(result_string)
-    print("Escolha uma delas usando o número na frente delas.")
-    optionSelect = int(input()) - 1
+    optionSelect = int(input("Escolha uma delas usando o número na frente delas: ")) - 1
 
     if optionSelect >= 0 and optionSelect <= len(urls):
         isValid = True
